@@ -1,0 +1,246 @@
+{
+  "event_statuses": [
+    { "id": 1, "name": "Published" },
+    { "id": 2, "name": "Draft" }
+  ],
+  "ticket_category_statuses": [
+    { "id": 1, "name": "Active" },
+    { "id": 2, "name": "Inactive" }
+  ],
+  "order_statuses": [
+    { "id": 1, "name": "Pending" },
+    { "id": 2, "name": "Success" },
+    { "id": 3, "name": "Cancelled" }
+  ],
+  "events": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "name": "MARS 9",
+      "code": "MARS9",
+      "category": "Music",
+      "city": "Palu",
+      "province": "Sulawesi Tengah",
+      "location": "Gelora Bumi Kaktus (GBK) Andi Raga Pettalolo",
+      "location_link": "https://maps.google.com/?q=Gelora+Bumi+Kaktus",
+      "description": "Raisa Live in Palu - MARS 9 (Madani Art Show). Saksikan penampilan spesial Raisa membawakan lagu-lagu hits terbaiknya secara langsung di Gelora Bumi Kaktus Palu.",
+      "start_date": "2026-07-17T15:00:00.000Z",
+      "end_date": "2026-07-17T22:00:00.000Z",
+      "start_date_offset": "+07:00",
+      "end_date_offset": "+07:00",
+      "copy_data_setting": false,
+      "approved": true,
+      "event_status_id": 1,
+      "admin_fee": 10000,
+      "thumbnail_image": "/images/thumbnail-mars9.png",
+      "detail_image": "/images/detail-mars9.png",
+      "slide_image": "/images/slide-mars9.png",
+      "contact_person": "PT Jonly Indonesia",
+      "ticket_categories": [
+        {
+          "id": "tc-mars9-presale",
+          "name": "Presale",
+          "price": 117000,
+          "stock": 50,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-16T23:59:59.000Z",
+          "sales_start_time_offset": "+07:00",
+          "sales_end_time_offset": "+07:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 4
+        },
+        {
+          "id": "tc-mars9-normal",
+          "name": "Normal",
+          "price": 150000,
+          "stock": 100,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-17T14:00:00.000Z",
+          "sales_start_time_offset": "+07:00",
+          "sales_end_time_offset": "+07:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 4
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "name": "Ice Skating Wonderland",
+      "code": "ice-skating-wonderland",
+      "category": "Art Entertainment",
+      "city": "Makassar",
+      "province": "Sulawesi Selatan",
+      "location": "Summarecon Mutiara Makassar Convention Center (Hall B)",
+      "location_link": "https://maps.google.com/?q=Summarecon+Makassar",
+      "description": "Wahana bermain Ice Skating terbesar di Kota Makassar. Terdapat 3 wahana bermain, yaitu Snow Playground, Snow Slide, dan Ice Skating Rink. Buka setiap hari (Senin-Minggu) mulai pukul 10.00 - 22.15 Wita.",
+      "start_date": "2026-07-06T10:00:00.000Z",
+      "end_date": "2026-07-26T22:15:00.000Z",
+      "start_date_offset": "+08:00",
+      "end_date_offset": "+08:00",
+      "copy_data_setting": false,
+      "approved": true,
+      "event_status_id": 1,
+      "admin_fee": 10000,
+      "thumbnail_image": "/images/thumbnail-iceskating.png",
+      "detail_image": "/images/detail-iceskating.png",
+      "contact_person": "PT Jonli Indonesia",
+      "ticket_categories": [
+        {
+          "id": "tc-ice-weekdays",
+          "name": "Weekdays",
+          "price": 117000,
+          "stock": 200,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-26T20:00:00.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 10
+        },
+        {
+          "id": "tc-ice-weekends",
+          "name": "Weekends",
+          "price": 127000,
+          "stock": 150,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-26T20:00:00.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 10
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440003",
+      "name": "SHARING TIME PALEMBANG",
+      "code": "sharing-time-palembang",
+      "category": "Religi",
+      "city": "Palembang",
+      "province": "Sumatera Selatan",
+      "location": "Ballroom Fave Hotel Palembang",
+      "location_link": "https://maps.google.com/?q=Fave+Hotel+Palembang",
+      "description": "Temukan kedamaian dan inspirasi dalam acara Sharing Time Palembang bersama ustadz pilihan. Membahas tema 'Mengapa Aku Menanti Siasat-Nya'.",
+      "start_date": "2026-07-19T09:00:00.000Z",
+      "end_date": "2026-07-19T13:00:00.000Z",
+      "start_date_offset": "+07:00",
+      "end_date_offset": "+07:00",
+      "copy_data_setting": false,
+      "approved": true,
+      "event_status_id": 1,
+      "admin_fee": 10000,
+      "thumbnail_image": "/images/thumbnail-sharingtime.png",
+      "detail_image": "/images/detail-sharingtime.png",
+      "contact_person": "PT Jonly Indonesia",
+      "ticket_categories": [
+        {
+          "id": "tc-sharing-palembang",
+          "name": "General Admission",
+          "price": 50000,
+          "stock": 300,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-19T08:00:00.000Z",
+          "sales_start_time_offset": "+07:00",
+          "sales_end_time_offset": "+07:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 5
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440004",
+      "name": "Intro Show Prologfest",
+      "code": "intro-show-prologfest",
+      "category": "Music",
+      "city": "Makassar",
+      "province": "Sulawesi Selatan",
+      "location": "Stadion Andi Mattalatta",
+      "location_link": "https://maps.google.com/?q=Stadion+Andi+Mattalatta",
+      "description": "Prologfest mempersembahkan Intro Show bersama Peterpan dan Rony Parulian. Rasakan getaran konser luar biasa di Makassar.",
+      "start_date": "2026-08-16T15:00:00.000Z",
+      "end_date": "2026-08-16T23:00:00.000Z",
+      "start_date_offset": "+08:00",
+      "end_date_offset": "+08:00",
+      "copy_data_setting": false,
+      "approved": true,
+      "event_status_id": 1,
+      "admin_fee": 10000,
+      "thumbnail_image": "/images/thumbnail-prologfest.png",
+      "detail_image": "/images/detail-prologfest.png",
+      "contact_person": "PT Jonly Indonesia",
+      "ticket_categories": [
+        {
+          "id": "tc-prolog-festival",
+          "name": "Festival",
+          "price": 150000,
+          "stock": 400,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-08-16T14:00:00.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 6
+        },
+        {
+          "id": "tc-prolog-vip",
+          "name": "VIP",
+          "price": 300000,
+          "stock": 100,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-08-16T14:00:00.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 4
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440005",
+      "name": "Seruan Untuk Berpesta",
+      "code": "seruan-untuk-berpesta",
+      "category": "Music",
+      "city": "Makassar",
+      "province": "Sulawesi Selatan",
+      "location": "TBA",
+      "location_link": "https://maps.google.com",
+      "description": "Seruan Untuk Berpesta - Sebuah perayaan festival musik alternatif di Makassar menampilkan berbagai line up band indie lokal terkemuka.",
+      "start_date": "2026-09-03T15:00:00.000Z",
+      "end_date": "2026-09-03T23:00:00.000Z",
+      "start_date_offset": "+08:00",
+      "end_date_offset": "+08:00",
+      "copy_data_setting": false,
+      "approved": true,
+      "event_status_id": 1,
+      "admin_fee": 10000,
+      "thumbnail_image": "/images/thumbnail-berpesta.png",
+      "detail_image": "/images/detail-berpesta.png",
+      "contact_person": "PT Jonly Indonesia",
+      "ticket_categories": [
+        {
+          "id": "tc-berpesta-early",
+          "name": "Early Bird",
+          "price": 85000,
+          "stock": 200,
+          "sales_start_time": "2026-06-01T00:00:00.000Z",
+          "sales_end_time": "2026-07-31T23:59:59.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 4
+        },
+        {
+          "id": "tc-berpesta-presale",
+          "name": "Presale",
+          "price": 120000,
+          "stock": 300,
+          "sales_start_time": "2026-08-01T00:00:00.000Z",
+          "sales_end_time": "2026-09-03T14:00:00.000Z",
+          "sales_start_time_offset": "+08:00",
+          "sales_end_time_offset": "+08:00",
+          "ticket_category_status_id": 1,
+          "maximum_tickets_per_transaction": 4
+        }
+      ]
+    }
+  ]
+}
