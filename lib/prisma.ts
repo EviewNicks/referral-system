@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === "production") {
     const adapter = new PrismaPg(globalForPrisma.pool);
     globalForPrisma.prisma = new PrismaClient({
       adapter,
-      log: ["query", "error", "warn"],
+      log: ["error", "warn"],
     });
   }
   prisma = globalForPrisma.prisma;
