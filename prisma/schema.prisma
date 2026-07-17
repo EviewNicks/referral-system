@@ -389,6 +389,7 @@ model orders {
   promo_code          String?               @db.VarChar(255)
   subtotal_amount     BigInt?
   discount_amount     BigInt?               @default(0)
+  affiliate_code      String?               @db.VarChar(255)
   promos              promos?               @relation(fields: [promo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_orders_promo")
   order_statuses      order_statuses        @relation(fields: [order_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fkcbbqf26brulgfgvd0mf74rv4y")
   rsvp_payment_proofs rsvp_payment_proofs[]

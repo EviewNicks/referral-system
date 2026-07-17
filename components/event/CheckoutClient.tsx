@@ -181,11 +181,14 @@ export default function CheckoutClient({ event, ticketsToBuy, refCode }: Checkou
             <span className="text-xl font-extrabold text-[#2C1F63] tracking-wide">{successOrder}</span>
           </div>
 
-          <div className="w-full flex gap-3 mt-2">
-            <Link href="/" className="flex-1">
-              <Button variant="default" className="w-full border-2 border-black font-extrabold bg-[#CAFF04] hover:bg-[#b0df03] text-black">
-                Kembali ke Beranda
+          <div className="w-full flex flex-col gap-3 mt-2">
+            <Link href={`/orders/${successOrder}`} className="w-full">
+              <Button variant="default" className="w-full border-2 border-black font-extrabold bg-[#CAFF04] hover:bg-[#b0df03] text-black shadow-[2px_2px_0px_#000] cursor-pointer">
+                Lihat E-Tiket Saya
               </Button>
+            </Link>
+            <Link href="/" className="w-full text-center text-xs font-bold text-gray-500 hover:text-black transition-colors">
+              Kembali ke Beranda
             </Link>
           </div>
         </div>

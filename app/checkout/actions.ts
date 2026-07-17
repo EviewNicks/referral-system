@@ -35,6 +35,7 @@ export async function createOrderAction(input: CheckoutInput) {
         admin_fees: BigInt(input.adminFee),
         discount_amount: BigInt(0),
         order_status_id: 2, // Success directly (skipping payment configuration in dev)
+        affiliate_code: input.refCode || null,
       },
     });
 
