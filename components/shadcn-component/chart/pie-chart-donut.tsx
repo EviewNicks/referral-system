@@ -44,7 +44,7 @@ export function ChartPieDonutText({ denganAfiliasiCount, tanpaAfiliasiCount }: C
   const tanpaAfiliasiPercent = totalTransactions > 0 ? ((tanpaAfiliasiCount / totalTransactions) * 100).toFixed(1) : "0.0";
 
   return (
-    <Card className="border border-gray-200/60 rounded-[24px] shadow-sm overflow-hidden flex flex-col h-full">
+    <Card className="border border-gray-200/60 rounded-2xl shadow-sm overflow-hidden flex flex-col h-full">
       <CardHeader className="pb-4 border-b border-gray-100">
         <CardTitle className="text-base font-extrabold text-black uppercase tracking-wide">
           Komposisi Transaksi
@@ -77,29 +77,26 @@ export function ChartPieDonutText({ denganAfiliasiCount, tanpaAfiliasiCount }: C
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
+                      <g>
                         <text
                           x={viewBox.cx}
-                          y={viewBox.cy - 2}
+                          y={viewBox.cy - 5}
                           className="fill-black text-2xl font-extrabold"
                           textAnchor="middle"
+                          dominantBaseline="middle"
                         >
                           {totalTransactions.toLocaleString()}
                         </text>
                         <text
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 16}
+                          y={(viewBox.cy || 0) + 18}
                           className="fill-gray-400 font-bold text-[10px] uppercase tracking-wider"
                           textAnchor="middle"
+                          dominantBaseline="middle"
                         >
                           Total
                         </text>
-                      </text>
+                      </g>
                     )
                   }
                 }}

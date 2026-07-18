@@ -84,7 +84,7 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
           name: cat.name,
           price: cat.price,
         },
-        quantity: Math.min(tr.qty, cat.stock, cat.maximum_tickets_per_transaction),
+        quantity: Math.min(tr.qty, cat.stock, cat.maximum_tickets_per_transaction ?? Infinity),
       };
     })
     .filter((item): item is NonNullable<typeof item> => item !== null);

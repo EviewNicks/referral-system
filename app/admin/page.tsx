@@ -143,9 +143,13 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
       <header className="sticky top-0 z-40 w-full border-b border-gray-100 bg-white px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="h-7 w-7 bg-[#FFDE04] rounded flex items-center justify-center font-extrabold text-xs shadow-sm">
-              K
-            </div>
+            <Image 
+              src="/logo/logo.png" 
+              alt="Kartjis Logo" 
+              width={28} 
+              height={28} 
+              className="h-7 w-7 object-contain rounded-md"
+            />
             <span className="font-extrabold text-lg tracking-wider text-black">
               KARTJIS.ID
             </span>
@@ -302,7 +306,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
 
           {/* Need Help Card Box */}
           <div className="px-4">
-            <div className="p-4 bg-[#2C1F63] border border-[#2C1F63] rounded-[20px] shadow-sm text-center text-white flex flex-col gap-3">
+            <div className="p-4 bg-[#2C1F63] border border-[#2C1F63] rounded-xl shadow-sm text-center text-white flex flex-col gap-3">
               <span className="text-xs font-extrabold">Butuh Bantuan?</span>
               <p className="text-[10px] text-gray-200/90 font-medium leading-relaxed">Tim kami siap membantu kebutuhan event kamu.</p>
               <button className="w-full py-2 bg-white rounded-lg text-black font-extrabold text-[10px] shadow-sm hover:bg-gray-50 transition-all">
@@ -313,7 +317,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
         </aside>
 
         {/* CONTENT AREA (RIGHT) */}
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-4">
           
           {/* Dashboard Title & Top breadcrumbs */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -345,10 +349,10 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
           </div>
 
           {/* 3. METRICS STATS CARDS ROW (5 columns) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             
             {/* Card 1: Total Transaksi */}
-            <div className="bg-[#F5F3FF] border border-[#E9D5FF]/40 rounded-[24px] p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
+            <div className="bg-[#F5F3FF] border border-[#E9D5FF]/40 rounded-2xl p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold text-[#7C3AED] uppercase tracking-wider">Total Transaksi</span>
                 <div className="h-7 w-7 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-xs">
@@ -362,7 +366,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             </div>
 
             {/* Card 2: Total Tiket Terjual */}
-            <div className="bg-[#EFF6FF] border border-[#BFDBFE]/40 rounded-[24px] p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
+            <div className="bg-[#EFF6FF] border border-[#BFDBFE]/40 rounded-2xl p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold text-[#2563EB] uppercase tracking-wider">Total Tiket Terjual</span>
                 <div className="h-7 w-7 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-xs">
@@ -376,7 +380,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             </div>
 
             {/* Card 3: Total Pembayaran */}
-            <div className="bg-[#ECFDF5] border border-[#A7F3D0]/40 rounded-[24px] p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
+            <div className="bg-[#ECFDF5] border border-[#A7F3D0]/40 rounded-2xl p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold text-[#059669] uppercase tracking-wider">Total Pembayaran</span>
                 <div className="h-7 w-7 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-xs">
@@ -390,7 +394,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             </div>
 
             {/* Card 4: Transaksi dengan Afiliasi */}
-            <div className="bg-[#FFFBEB] border border-[#FDE68A]/40 rounded-[24px] p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
+            <div className="bg-[#FFFBEB] border border-[#FDE68A]/40 rounded-2xl p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold text-[#D97706] uppercase tracking-wider">Dengan Afiliasi</span>
                 <div className="h-7 w-7 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-xs">
@@ -404,7 +408,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             </div>
 
             {/* Card 5: Transaksi tanpa Afiliasi */}
-            <div className="bg-[#FEF2F2] border border-[#FECACA]/40 rounded-[24px] p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
+            <div className="bg-[#FEF2F2] border border-[#FECACA]/40 rounded-2xl p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold text-[#DC2626] uppercase tracking-wider">Tanpa Afiliasi</span>
                 <div className="h-7 w-7 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-xs">
@@ -420,7 +424,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
           </div>
 
           {/* 4. CHARTS VISUAL SECTION GRID (2 Column / 1 Column) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
             {/* Panel Left: Daily line chart */}
             <div className="lg:col-span-2">
@@ -438,7 +442,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
           </div>
 
           {/* 5. FILTER OPTIONS AND DROPDOWNS CONTROL */}
-          <form method="GET" action="/admin" className="w-full flex flex-wrap items-center justify-between gap-4 p-4 bg-white border border-gray-200/60 rounded-[20px] shadow-sm">
+          <form method="GET" action="/admin" className="w-full flex flex-wrap items-center justify-between gap-4 p-4 bg-white border border-gray-200/60 rounded-xl shadow-sm">
             <input type="hidden" name="secret" value={secret} />
 
             <div className="flex flex-wrap items-center gap-3">
@@ -529,7 +533,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
           </form>
 
           {/* 6. MAIN DATA TABLE BLOCK CARD */}
-          <div className="bg-white border border-gray-200/60 rounded-[24px] shadow-sm overflow-hidden">
+          <div className="bg-white border border-gray-200/60 rounded-2xl shadow-sm overflow-hidden">
             
             {/* Header Title inside card */}
             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
