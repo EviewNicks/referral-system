@@ -1,7 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <footer className="w-full bg-[#0B0A0F] text-gray-400 py-12 border-t border-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
