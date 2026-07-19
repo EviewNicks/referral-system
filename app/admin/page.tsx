@@ -25,8 +25,7 @@ import {
   Users
 } from "lucide-react";
 import { formatRupiah, formatDate, formatTime } from "@/lib/utils";
-import { ChartLineDotsCustom } from "@/components/shadcn-component/chart/line-chart-custom-dots";
-import { ChartPieDonutText } from "@/components/shadcn-component/chart/pie-chart-donut";
+import { ChartLineDotsCustom, ChartPieDonutText } from "@/features/admin";
 
 type PageProps = {
   searchParams: Promise<{

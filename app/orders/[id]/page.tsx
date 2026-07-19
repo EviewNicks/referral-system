@@ -36,8 +36,8 @@ export default async function OrderDetailPage({ params }: PageProps) {
   const event = firstTicket?.events;
 
   const totalTickets = tickets.length;
-  const subtotal = Number(order.subtotal_amount || 0n);
-  const totalAdminFee = Number(order.admin_fees || 0n);
+  const subtotal = Number(order.subtotal_amount || 0);
+  const totalAdminFee = Number(order.admin_fees || 0);
   const grandTotal = Number(order.total_amount);
 
   return (

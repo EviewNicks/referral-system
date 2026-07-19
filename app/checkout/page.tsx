@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import CheckoutClient from "@/components/event/CheckoutClient";
+import { CheckoutClient } from "@/features/checkout";
 import { Button } from "@/components/ui/button";
 
 type PageProps = {

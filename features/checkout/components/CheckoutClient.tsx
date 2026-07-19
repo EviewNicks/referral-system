@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { ArrowLeft, CheckCircle2, User, Mail, Phone, Calendar, AlertCircle } fro
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatRupiah } from "@/lib/utils";
-import { createOrderAction } from "@/app/checkout/actions";
+import { createOrderAction } from "../actions";
 
 type TicketType = {
   id: string;
@@ -47,15 +47,7 @@ type PassengerForm = {
 
 export default function CheckoutClient({ event, ticketsToBuy, refCode }: CheckoutClientProps) {
   const router = useRouter();
-  const [forms, setForms] = useState<PassengerForm[]>([]);
-  const [useOneData, setUseOneData] = useState(false);
-  const [agreed, setAgreed] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successOrder, setSuccessOrder] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  // Set up forms list based on selected tickets & quantities
-  useEffect(() => {
+  const [forms, setForms] = useState<PassengerForm[]>(() => {
     const list: PassengerForm[] = [];
     ticketsToBuy.forEach((item) => {
       for (let i = 0; i < item.quantity; i++) {
@@ -71,15 +63,20 @@ export default function CheckoutClient({ event, ticketsToBuy, refCode }: Checkou
         });
       }
     });
-    setForms(list);
-  }, [ticketsToBuy]);
+    return list;
+  });
+  const [useOneData, setUseOneData] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successOrder, setSuccessOrder] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Replicate form 0 data to other forms if "useOneData" is checked
-  useEffect(() => {
-    if (useOneData && forms.length > 1) {
+  const handleUseOneDataChange = (checked: boolean) => {
+    setUseOneData(checked);
+    if (checked && forms.length > 1) {
       const source = forms[0];
-      setForms(prev => 
-        prev.map((form, index) => 
+      setForms(prev =>
+        prev.map((form, index) =>
           index === 0 ? form : {
             ...form,
             customerName: source.customerName,
@@ -91,14 +88,22 @@ export default function CheckoutClient({ event, ticketsToBuy, refCode }: Checkou
         )
       );
     }
-  }, [useOneData, forms[0]?.customerName, forms[0]?.customerEmail, forms[0]?.customerPhone, forms[0]?.customerBirthDate, forms[0]?.customerGender]);
+  };
 
   const handleInputChange = (index: number, field: keyof PassengerForm, value: string) => {
     setForms(prev => {
       const copy = [...prev];
       copy[index] = { ...copy[index], [field]: value };
       
-      // If we change form 0 and useOneData is checked, replication happens in the useEffect above
+      // If we change form 0 and useOneData is checked, propagate to other forms immediately
+      if (useOneData && index === 0) {
+        for (let i = 1; i < copy.length; i++) {
+          copy[i] = {
+            ...copy[i],
+            [field]: value
+          };
+        }
+      }
       return copy;
     });
   };
@@ -240,7 +245,7 @@ export default function CheckoutClient({ event, ticketsToBuy, refCode }: Checkou
                 type="checkbox"
                 id="one-data"
                 checked={useOneData}
-                onChange={(e) => setUseOneData(e.target.checked)}
+                onChange={(e) => handleUseOneDataChange(e.target.checked)}
                 className="h-5 w-5 rounded border-2 border-black focus:ring-[#2E4EEA] text-[#2E4EEA] cursor-pointer"
               />
             </div>

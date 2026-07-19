@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import EventDetailClient from "@/components/event/EventDetailClient";
+import { EventDetailClient } from "@/features/catalog";
 
 type Props = {
   params: Promise<{
@@ -46,7 +46,7 @@ export default async function EventDetailPage({ params }: Props) {
       name: tc.name,
       price: tc.price,
       stock: tc.stock,
-      maximum_tickets_per_transaction: tc.maximum_tickets_per_transaction,
+      maximum_tickets_per_transaction: tc.maximum_tickets_per_transaction ?? tc.stock,
     }))
   };
 

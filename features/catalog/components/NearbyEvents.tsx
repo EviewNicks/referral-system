@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import EventCard from "@/components/event/EventCard";
+import EventCard from "./EventCard";
 import { Button } from "@/components/ui/button";
 
 type EventItem = {

@@ -1,7 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import EventCarousel from "@/components/home/EventCarousel";
-import NearbyEvents from "@/components/home/NearbyEvents";
-import CTABanner from "@/components/home/CTABanner";
+import { EventCarousel, NearbyEvents, CTABanner } from "@/features/catalog";
 
 async function getEvents() {
   const events = await prisma.events.findMany({
