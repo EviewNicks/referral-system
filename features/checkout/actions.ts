@@ -70,6 +70,23 @@ export async function createOrderAction(input: CheckoutInput) {
       });
     }
 
+    // 4. Record affiliate transaction log if refCode matches a partner
+    if (input.refCode) {
+      const affiliate = await prisma.affiliates.findUnique({
+        where: { code: input.refCode },
+      });
+      if (affiliate) {
+        await prisma.affiliate_logs.create({
+          data: {
+            affiliate_id: affiliate.id,
+            order_id: orderId,
+            event_id: input.eventId,
+            total_amount: BigInt(input.totalPrice),
+          },
+        });
+      }
+    }
+
     return {
       success: true,
       orderId: order.id,

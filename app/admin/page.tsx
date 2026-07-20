@@ -3,26 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { 
-  LayoutDashboard, 
   Calendar, 
-  Ticket, 
-  TrendingUp, 
   ShoppingBag, 
-  Percent, 
-  Settings, 
-  Search, 
-  Bell, 
-  ChevronDown, 
-  CircleUser, 
-  ArrowUpRight, 
-  HelpCircle, 
   Filter, 
   RotateCcw, 
   FileDown,
-  X,
+  ArrowUpRight,
   CreditCard,
-  Building2,
-  Users
+  ChevronDown,
+  Ticket,
+  TrendingUp,
+  Users,
+  HelpCircle
 } from "lucide-react";
 import { formatRupiah, formatDate, formatTime } from "@/lib/utils";
 import { ChartLineDotsCustom, ChartPieDonutText } from "@/features/admin";
@@ -136,187 +128,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9FD] flex flex-col font-sans">
-      
-      {/* 1. TOP GLOBAL NAVIGATION BAR */}
-      <header className="sticky top-0 z-40 w-full border-b border-gray-100 bg-white px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Image 
-              src="/logo/logo.png" 
-              alt="Kartjis Logo" 
-              width={28} 
-              height={28} 
-              className="h-7 w-7 object-contain rounded-md"
-            />
-            <span className="font-extrabold text-lg tracking-wider text-black">
-              KARTJIS.ID
-            </span>
-          </Link>
-        </div>
-
-        {/* Global Search Box */}
-        <div className="hidden md:flex max-w-md flex-1 px-8">
-          <div className="relative w-full flex items-center">
-            <Search className="absolute left-3.5 h-4 w-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="cari event, acara, dll..."
-              className="w-full h-10 pl-10 pr-4 bg-gray-50 border border-gray-200 rounded-full text-xs font-bold focus:outline-none focus:bg-white shadow-sm focus:shadow-none transition-all"
-            />
-          </div>
-        </div>
-
-        {/* User Right Profile Actions */}
-        <div className="flex items-center gap-4">
-          <button className="relative h-9 w-9 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-all">
-            <Bell className="h-4 w-4" />
-            <span className="absolute -top-1 -right-1 h-4 w-4 bg-[#E7222E] rounded-full text-[8px] font-extrabold text-white flex items-center justify-center shadow-sm">
-              12
-            </span>
-          </button>
-          
-          <div className="h-9 w-px bg-gray-300" />
-          
-          <div className="flex items-center gap-2">
-            <div className="h-9 w-9 bg-[#EBF5FF] border border-gray-200 rounded-full flex items-center justify-center font-extrabold shadow-sm">
-              EO
-            </div>
-            <div className="hidden lg:flex flex-col text-left">
-              <span className="text-[11px] font-extrabold text-black leading-none">EO Universe</span>
-              <span className="text-[9px] text-gray-400 font-bold">Admin</span>
-            </div>
-            <ChevronDown className="h-4 w-4 text-gray-400 hidden lg:block" />
-          </div>
-        </div>
-      </header>
-
-      {/* 2. MAIN LAYOUT SHELL */}
-      <div className="flex flex-1">
-        
-        {/* SIDEBAR NAVIGATION (LEFT) */}
-        <aside className="hidden lg:flex w-64 border-r border-gray-100 bg-white flex-col justify-between py-6">
-          <div className="flex flex-col gap-6">
-            
-            {/* Nav Group 1: General */}
-            <div className="px-4">
-              <Link 
-                href={`/admin?secret=${secret}`}
-                className="flex items-center gap-3 px-4 py-3 bg-[#FAF9FD] rounded-[12px] font-extrabold text-xs text-[#2C1F63] hover:bg-[#FAF9FD]/80 transition-all"
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            </div>
-
-            {/* Nav Group 2: Event Management */}
-            <div className="flex flex-col gap-1.5">
-              <span className="px-8 text-[9px] text-gray-400 font-extrabold uppercase tracking-widest">Event Management</span>
-              <ul className="flex flex-col gap-1 px-4 text-xs font-bold text-gray-500">
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Calendar className="h-4 w-4" /> <span>Event Saya</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <ShoppingBag className="h-4 w-4" /> <span>Pesanan</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Ticket className="h-4 w-4" /> <span>Check-in</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <TrendingUp className="h-4 w-4" /> <span>Laporan Penjualan</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <HelpCircle className="h-4 w-4" /> <span>Review</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Nav Group 3: Promosi */}
-            <div className="flex flex-col gap-1.5">
-              <span className="px-8 text-[9px] text-gray-400 font-extrabold uppercase tracking-widest">Promosi</span>
-              <ul className="flex flex-col gap-1 px-4 text-xs font-bold text-gray-500">
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Percent className="h-4 w-4" /> <span>Promo & Diskon</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Image src="/window.svg" alt="Banner" width={16} height={16} className="h-4 w-4 opacity-50" /> <span>Banner</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Nav Group 4: Affiliate */}
-            <div className="flex flex-col gap-1.5">
-              <span className="px-8 text-[9px] text-gray-400 font-extrabold uppercase tracking-widest">Affiliate</span>
-              <ul className="flex flex-col gap-1 px-4 text-xs font-bold">
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 text-gray-500 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Users className="h-4 w-4" /> <span>Affiliator</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href={`/admin?secret=${secret}`}
-                    className="flex items-center gap-3 px-4 py-2.5 bg-[#FAF8FE] border border-[#2C1F63]/20 rounded-lg text-[#2C1F63] shadow-sm hover:bg-[#FAF8FE]/80 transition-all"
-                  >
-                    <Image src="/file.svg" alt="File" width={16} height={16} className="h-4 w-4" /> 
-                    <span className="font-extrabold text-xs">Laporan Transaksi</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Nav Group 5: Pengaturan */}
-            <div className="flex flex-col gap-1.5">
-              <span className="px-8 text-[9px] text-gray-400 font-extrabold uppercase tracking-widest">Pengaturan</span>
-              <ul className="flex flex-col gap-1 px-4 text-xs font-bold text-gray-500">
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <CircleUser className="h-4 w-4" /> <span>Profil EO</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Building2 className="h-4 w-4" /> <span>Rekening Bank</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-colors">
-                    <Settings className="h-4 w-4" /> <span>Pengaturan</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-
-          {/* Need Help Card Box */}
-          <div className="px-4">
-            <div className="p-4 bg-[#2C1F63] border border-[#2C1F63] rounded-xl shadow-sm text-center text-white flex flex-col gap-3">
-              <span className="text-xs font-extrabold">Butuh Bantuan?</span>
-              <p className="text-[10px] text-gray-200/90 font-medium leading-relaxed">Tim kami siap membantu kebutuhan event kamu.</p>
-              <button className="w-full py-2 bg-white rounded-lg text-black font-extrabold text-[10px] shadow-sm hover:bg-gray-50 transition-all">
-                Hubungi Kami
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        {/* CONTENT AREA (RIGHT) */}
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-4">
+    <>
           
           {/* Dashboard Title & Top breadcrumbs */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -704,10 +516,6 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             </div>
 
           </div>
-
-        </main>
-      </div>
-
-    </div>
-  );
-}
+        </>
+      );
+    }
