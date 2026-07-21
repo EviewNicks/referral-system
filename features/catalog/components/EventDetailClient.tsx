@@ -3,9 +3,27 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Calendar, Clock, MapPin, Share2, Link2, MessageCircle, Minus, Plus, ShieldCheck } from "lucide-react";
+import { 
+  Calendar, 
+  Clock, 
+  MapPin, 
+  Share2, 
+  Link2, 
+  MessageCircle, 
+  Minus, 
+  Plus, 
+  ShieldCheck,
+  X,
+  Copy,
+  Check,
+  AlertCircle,
+  ChevronDown
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { formatDate, formatTime, formatRupiah } from "@/lib/utils";
+import { getAffiliatesAction } from "@/features/affiliates/actions";
+import { Affiliate } from "@/features/affiliates/types";
 
 type TicketCategory = {
   id: string;
@@ -35,12 +53,64 @@ type EventDetail = {
 
 type EventDetailClientProps = {
   event: EventDetail;
+  isAdmin?: boolean;
 };
 
-export default function EventDetailClient({ event }: EventDetailClientProps) {
+export default function EventDetailClient({ event, isAdmin = false }: EventDetailClientProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  
+  // Affiliate Modal States
+  const [isAffiliateModalOpen, setIsAffiliateModalOpen] = useState(false);
+  const [affiliates, setAffiliates] = useState<Affiliate[]>([]);
+  const [loadingAffiliates, setLoadingAffiliates] = useState(false);
+  const [affiliatesError, setAffiliatesError] = useState<string | null>(null);
+  const [selectedAffiliate, setSelectedAffiliate] = useState<Affiliate | null>(null);
+  const [selectedAffiliateCode, setSelectedAffiliateCode] = useState("");
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleOpenAffiliateModal = async () => {
+    setIsAffiliateModalOpen(true);
+    setLoadingAffiliates(true);
+    setAffiliatesError(null);
+    setSelectedAffiliate(null);
+    setSelectedAffiliateCode("");
+    try {
+      const res = await getAffiliatesAction();
+      if (res.success && res.data) {
+        setAffiliates(res.data.filter(a => a.is_active));
+      } else {
+        setAffiliatesError(res.message || "Gagal memuat daftar affiliator.");
+      }
+    } catch (err) {
+      console.error(err);
+      setAffiliatesError("Terjadi kesalahan jaringan.");
+    } finally {
+      setLoadingAffiliates(false);
+    }
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map(word => word[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const generatedLink = selectedAffiliateCode 
+    ? `${window.location.origin}/events/${event.code || event.id}?AFFIL=${selectedAffiliateCode}`
+    : "";
+
+  const handleCopyGeneratedLink = () => {
+    if (!generatedLink) return;
+    navigator.clipboard.writeText(generatedLink);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
   const [shareTooltip, setShareTooltip] = useState(false);
   const [shareUrls, setShareUrls] = useState({
     twitter: "",
@@ -281,14 +351,27 @@ export default function EventDetailClient({ event }: EventDetailClientProps) {
 
           {/* Sticky/Direct Checkout Banner CTA */}
           {cheapestTicket !== null && (
-            <Button
-              onClick={scrollToTickets}
-              variant="primary"
-              size="lg"
-              className="w-full bg-[#2C1F63] hover:bg-[#1f1647] text-white border-2 border-black rounded-full shadow-[4px_4px_0px_#FFBC05] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] font-extrabold text-base transition-all h-12 py-3"
-            >
-              Beli Kartjis {formatRupiah(cheapestTicket)}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 items-center w-full">
+              <Button
+                onClick={scrollToTickets}
+                variant="primary"
+                size="lg"
+                className="flex-1 w-full bg-[#2C1F63] hover:bg-[#1f1647] text-white border-2 border-black rounded-full shadow-[4px_4px_0px_#FFBC05] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] font-extrabold text-base transition-all h-12 py-3 cursor-pointer"
+              >
+                Beli Kartjis {formatRupiah(cheapestTicket)}
+              </Button>
+              {isAdmin && (
+                <Button
+                  onClick={handleOpenAffiliateModal}
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full border-2 border-black font-extrabold flex items-center justify-center gap-1.5 h-12 px-6 shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] bg-white transition-all text-black hover:bg-gray-50 cursor-pointer w-full sm:w-auto shrink-0"
+                >
+                  <Link2 className="h-4 w-4" />
+                  <span>Affiliate Link</span>
+                </Button>
+              )}
+            </div>
           )}
 
         </div>
@@ -406,6 +489,150 @@ export default function EventDetailClient({ event }: EventDetailClientProps) {
             >
               Pesan Sekarang
             </Button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DIALOG: GENERATE AFFILIATE LINK (MATCHING MOCKUP 100%) */}
+      {isAffiliateModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
+          <div className="bg-white w-full max-w-md border border-gray-200/80 rounded-2xl shadow-xl p-5 flex flex-col gap-5 relative animate-scale-up">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-1">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-[#FAF8FE] border border-[#7C3AED]/20 flex items-center justify-center text-[#7C3AED]">
+                  <Link2 className="h-4.5 w-4.5" />
+                </div>
+                <h3 className="text-base font-extrabold text-black">
+                  Generate Affiliate Link
+                </h3>
+              </div>
+              <button
+                onClick={() => {
+                  setIsAffiliateModalOpen(false);
+                  setIsDropdownOpen(false);
+                }}
+                className="h-8 w-8 hover:bg-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-black transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 font-semibold -mt-2">
+              Pilih affiliator untuk membuat link afiliasi event ini.
+            </p>
+
+            {/* Custom Dropdown Selector */}
+            <div className="relative">
+              <label className="text-xs font-extrabold text-gray-700 mb-1.5 block">
+                Pilih Affiliator
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full flex items-center justify-between border-2 border-gray-200 rounded-xl px-4 py-2.5 text-xs font-bold bg-white text-left focus:border-black transition-colors cursor-pointer"
+              >
+                {selectedAffiliate ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-[#FAF8FE] border border-[#2C1F63]/10 flex items-center justify-center font-extrabold text-[#2C1F63] text-[10px]">
+                      {getInitials(selectedAffiliate.name)}
+                    </div>
+                    <span className="text-black font-extrabold">{selectedAffiliate.name}</span>
+                  </div>
+                ) : (
+                  <span className="text-gray-400">-- Pilih Affiliator --</span>
+                )}
+                <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-lg max-h-52 overflow-y-auto z-50 divide-y divide-gray-100">
+                  {loadingAffiliates ? (
+                    <div className="p-3 text-center text-xs text-gray-400 font-bold">Memuat data...</div>
+                  ) : affiliatesError ? (
+                    <div className="p-3 text-center text-xs text-red-500 font-bold">{affiliatesError}</div>
+                  ) : affiliates.length === 0 ? (
+                    <div className="p-3 text-center text-xs text-gray-400 font-bold">Tidak ada partner aktif</div>
+                  ) : (
+                    affiliates.map((partner) => (
+                      <button
+                        key={partner.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAffiliate(partner);
+                          setSelectedAffiliateCode(partner.code);
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-[#FAF8FE] transition-colors cursor-pointer text-left"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="h-6 w-6 rounded-full bg-[#FAF8FE] border border-[#2C1F63]/10 flex items-center justify-center font-extrabold text-[#2C1F63] text-[10px]">
+                            {getInitials(partner.name)}
+                          </div>
+                          <span className="text-xs font-extrabold text-black">{partner.name}</span>
+                        </div>
+                        <span className="text-xs font-extrabold text-[#7C3AED]">{partner.code}</span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Generated Link Field */}
+            <div className="flex flex-col gap-1.5 mt-1">
+              <label className="text-xs font-extrabold text-gray-700">Link Afiliasi Anda</label>
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  readOnly
+                  placeholder="Link akan muncul setelah memilih affiliator"
+                  value={generatedLink}
+                  className="text-xs font-semibold rounded-xl border border-gray-200 bg-gray-50 flex-1 h-11 pr-3 truncate"
+                />
+                <Button
+                  type="button"
+                  disabled={!generatedLink}
+                  onClick={handleCopyGeneratedLink}
+                  variant="outline"
+                  className="shrink-0 rounded-xl border border-gray-200 hover:bg-gray-50 flex items-center justify-center h-11 w-11 cursor-pointer disabled:opacity-50"
+                >
+                  {copiedLink ? (
+                    <Check className="h-4 w-4 text-green-600" />
+                  ) : (
+                    <Copy className="h-4 w-4 text-black" />
+                  )}
+                </Button>
+              </div>
+              <span className="text-[10px] text-gray-400 font-semibold mt-0.5 flex items-start gap-1.5 leading-snug">
+                <AlertCircle className="h-3.5 w-3.5 shrink-0 mt-0.5 text-gray-400" />
+                <span>Link ini akan melacak setiap penjualan yang berasal dari affiliator terpilih.</span>
+              </span>
+            </div>
+
+            {/* Footer Main Action Button */}
+            <div className="pt-2 border-t border-gray-100 flex flex-col gap-2 mt-2">
+              <Button
+                type="button"
+                disabled={!generatedLink}
+                onClick={handleCopyGeneratedLink}
+                className="w-full rounded-xl bg-[#2C1F63] hover:bg-[#1f1647] text-white font-extrabold text-xs h-11 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md"
+              >
+                {copiedLink ? (
+                  <>
+                    <Check className="h-4 w-4 text-[#CAFF04]" />
+                    <span>Link Tersalin!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 text-white" />
+                    <span>Salin Link</span>
+                  </>
+                )}
+              </Button>
+            </div>
+
           </div>
         </div>
       )}
