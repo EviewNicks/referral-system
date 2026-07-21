@@ -7,8 +7,7 @@ import {
   TrendingUp, 
   Plus, 
   Search, 
-  Link2, 
-  Trash2, 
+  Eye,
   RefreshCw, 
   X, 
   User, 
@@ -24,6 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { Affiliate } from "../types";
 import { 
   getAffiliatesAction, 
@@ -485,23 +485,14 @@ export default function AffiliatesList({ events }: AffiliatesListProps) {
                           )}
                         </button>
 
-                        {/* Copy event promotion link */}
-                        <button
-                          onClick={() => openLinkModal(partner)}
-                          className="p-1.5 hover:bg-gray-50 border border-gray-200 rounded-lg text-gray-500 hover:text-[#2C1F63] transition-colors cursor-pointer"
-                          title="Generate Link"
+                        {/* View Detail Partner */}
+                        <Link
+                          href={`/admin/referral/${partner.code}`}
+                          className="p-1.5 hover:bg-gray-50 border border-gray-200 rounded-lg text-gray-500 hover:text-[#7C3AED] transition-colors cursor-pointer"
+                          title="Lihat Detail"
                         >
-                          <Link2 className="h-4 w-4" />
-                        </button>
-
-                        {/* Delete partner */}
-                        <button
-                          onClick={() => handleDeletePartner(partner.id)}
-                          className="p-1.5 hover:bg-gray-50 border border-gray-200 rounded-lg text-gray-500 hover:text-red-600 transition-colors cursor-pointer"
-                          title="Hapus Partner"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                          <Eye className="h-4 w-4" />
+                        </Link>
                       </div>
                     </td>
                   </tr>

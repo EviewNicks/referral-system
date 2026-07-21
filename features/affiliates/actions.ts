@@ -207,3 +207,62 @@ export async function exportReportsToCSVAction(): Promise<{ success: boolean; cs
     return { success: false, message: "Gagal mengekspor laporan ke CSV." };
   }
 }
+
+export async function getAffiliateDetailAction(code: string) {
+  try {
+    const affiliate = await prisma.affiliates.findUnique({
+      where: { code },
+    });
+    if (!affiliate) {
+      return { success: false, message: "Partner tidak ditemukan." };
+    }
+
+    const logs = await prisma.affiliate_logs.findMany({
+      where: { affiliate_id: affiliate.id },
+      include: {
+        orders: {
+          include: {
+            tickets: true
+          }
+        }
+      },
+      orderBy: { created_at: "desc" },
+    });
+
+    const parsedLogs = logs.map(log => ({
+      id: log.id,
+      orderId: log.order_id,
+      buyerName: log.orders?.tickets[0]?.customer_name || "-",
+      createdAt: log.created_at,
+      ticketQty: log.orders?.tickets?.length || 0,
+      totalAmount: Number(log.total_amount),
+      commission: Math.round(Number(log.total_amount) * (affiliate.commission_rate / 100)),
+    }));
+
+    const totalTransactions = parsedLogs.length;
+    const totalEarnings = parsedLogs.reduce((sum, item) => sum + item.commission, 0);
+
+    return {
+      success: true,
+      data: {
+        affiliate: {
+          id: affiliate.id,
+          name: affiliate.name,
+          code: affiliate.code,
+          email: affiliate.email,
+          commissionRate: affiliate.commission_rate,
+          isActive: affiliate.is_active,
+          createdAt: affiliate.created_at,
+        },
+        stats: {
+          totalTransactions,
+          totalEarnings,
+        },
+        transactions: parsedLogs,
+      }
+    };
+  } catch (error) {
+    console.error("❌ Error getting affiliate details action:", error);
+    return { success: false, message: "Terjadi kesalahan server saat mengambil detail partner." };
+  }
+}
