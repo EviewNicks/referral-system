@@ -13,6 +13,7 @@ export default function LoginForm() {
   const [manualError, setManualError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
+  const resetSuccess = searchParams.get("reset") === "success";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,6 +61,14 @@ export default function LoginForm() {
           </div>
         )}
 
+        {/* Success: Password Reset */}
+        {resetSuccess && (
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center gap-2 text-xs font-bold text-emerald-700">
+            <CheckCircle className="h-4 w-4 shrink-0" />
+            <span>Password berhasil diperbarui! Silakan login dengan password baru.</span>
+          </div>
+        )}
+
         {/* Error Alert */}
         {manualError && (
           <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 text-xs font-bold text-rose-700 text-center">
@@ -84,7 +93,12 @@ export default function LoginForm() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-extrabold text-gray-700">Password</label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-extrabold text-gray-700">Password</label>
+              <Link href="/forgot-password" className="text-[11px] font-bold text-[#2C1F63] hover:underline">
+                Lupa Password?
+              </Link>
+            </div>
             <div className="relative flex items-center">
               <Lock className="absolute left-3.5 h-4 w-4 text-gray-400 pointer-events-none" />
               <input

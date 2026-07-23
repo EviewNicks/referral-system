@@ -91,7 +91,13 @@ export async function createOrderAction(input: CheckoutInput) {
     // 5. Non-blocking WhatsApp Notification Delivery (ponytail: fire-and-forget, zero blocking)
     const firstTicket = input.tickets[0];
     if (firstTicket && firstTicket.customerPhone) {
-      const waMsg = `Halo ${firstTicket.customerName}! Terima kasih telah memesan tiket di Kartjis. Order ID Anda: ${orderId}.\n\nLihat E-Tiket Anda di sini:\nhttps://kartjis.netlify.app/orders/${orderId}`;
+      const eventDetail = await prisma.events.findUnique({
+        where: { id: input.eventId },
+        select: { name: true }
+      });
+      const eventName = eventDetail?.name || "Event Kartjis";
+
+      const waMsg = `🎉 *PEMESANAN TIKET BERHASIL!*\n\nHalo *${firstTicket.customerName}*, terima kasih telah melakukan pemesanan tiket melalui *Kartjis*.\n\n🎫 *Rincian Pesanan:*\n• *Order ID* : \`${orderId}\` \n• *Event*    : ${eventName}\n• *Jumlah*   : ${input.tickets.length} Tiket\n\n🔗 *Akses & Unduh E-Tiket Anda:*\nhttps://kartjis.netlify.app/orders/${orderId}\n\n_Simpan pesan ini sebagai bukti pemesanan saat tiba di lokasi event. Sampai jumpa di lokasi!_`;
       sendWhatsAppMessage({
         target: firstTicket.customerPhone,
         message: waMsg,

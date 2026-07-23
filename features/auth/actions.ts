@@ -108,3 +108,68 @@ export async function registerAction(prevState: any, formData: FormData) {
     };
   }
 }
+
+export async function forgotPasswordAction(prevState: any, formData: FormData) {
+  const email = formData.get("email") as string;
+  if (!email) {
+    return { success: false, message: "Email wajib diisi." };
+  }
+
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "https://kartjis.netlify.app"}/reset-password`,
+    });
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    return { 
+      success: true, 
+      message: "Instruksi reset password telah dikirimkan ke e-mail Anda. Silakan periksa kotak masuk." 
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : "Terjadi kesalahan saat meminta reset password.",
+    };
+  }
+}
+
+export async function updatePasswordAction(prevState: any, formData: FormData) {
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!password || !confirmPassword) {
+    return { success: false, message: "Semua field wajib diisi." };
+  }
+
+  if (password !== confirmPassword) {
+    return { success: false, message: "Password dan konfirmasi password tidak cocok." };
+  }
+
+  if (password.length < 8) {
+    return { success: false, message: "Password minimal 8 karakter." };
+  }
+
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    redirect("/login?reset=success");
+  } catch (err) {
+    if (err instanceof Error && err.message.includes("NEXT_REDIRECT")) {
+      throw err;
+    }
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : "Gagal memperbarui password.",
+    };
+  }
+}
+
