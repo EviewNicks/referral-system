@@ -14,7 +14,8 @@ import {
   Tag, 
   CircleUser, 
   Building2, 
-  Settings 
+  Settings,
+  Landmark
 } from "lucide-react";
 
 export default function AdminSidebar() {
@@ -32,7 +33,7 @@ export default function AdminSidebar() {
         {/* Nav Group 1: General */}
         <div className="px-4">
           <Link 
-            href={`/admin?secret=${secret}`}
+            href="/admin"
             className="flex items-center gap-3 px-4 py-3 bg-[#FAF9FD] rounded-[12px] font-extrabold text-xs text-[#2C1F63] hover:bg-[#FAF9FD]/80 transition-all"
           >
             <LayoutDashboard className="h-4 w-4" />
@@ -95,7 +96,7 @@ export default function AdminSidebar() {
           <ul className="flex flex-col gap-1 px-4 text-xs font-bold text-gray-500">
             <li>
               <Link 
-                href={`/admin?secret=${secret}`}
+                href="/admin"
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ${
                   isTransactionsActive 
                     ? "bg-[#FAF8FE] border border-[#2C1F63]/20 text-[#2C1F63] shadow-sm hover:bg-[#FAF8FE]/80" 
@@ -108,7 +109,7 @@ export default function AdminSidebar() {
             </li>
             <li>
               <Link 
-                href={`/admin/referral?secret=${secret}`}
+                href="/admin/referral"
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ${
                   isReferralActive 
                     ? "bg-[#FAF8FE] border border-[#2C1F63]/20 text-[#2C1F63] shadow-sm hover:bg-[#FAF8FE]/80" 

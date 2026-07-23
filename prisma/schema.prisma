@@ -818,18 +818,22 @@ enum staff_assignment_status {
 }
 
 model affiliates {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  eo_id            String?           @db.Char(36)
-  name             String            @db.VarChar(255)
-  code             String            @unique @db.VarChar(50)
-  whatsapp         String?           @db.VarChar(20)
-  email            String?           @db.VarChar(255)
-  commission_rate  Int               @default(15)
-  is_active        Boolean           @default(true)
-  created_at       DateTime?         @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime?         @default(now()) @db.Timestamptz(6)
-  event_organizers event_organizers? @relation(fields: [eo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  affiliate_logs   affiliate_logs[]
+  id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eo_id               String?           @db.Char(36)
+  name                String            @db.VarChar(255)
+  code                String            @unique @db.VarChar(50)
+  whatsapp            String?           @db.VarChar(20)
+  email               String?           @db.VarChar(255)
+  commission_rate     Int               @default(15)
+  is_active           Boolean           @default(true)
+  bank_name           String?           @db.VarChar(100)
+  bank_account_number String?           @db.VarChar(50)
+  bank_account_name   String?           @db.VarChar(255)
+  created_at          DateTime?         @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime?         @default(now()) @db.Timestamptz(6)
+  event_organizers    event_organizers? @relation(fields: [eo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  affiliate_logs      affiliate_logs[]
+  payout_requests     payout_requests[]
 }
 
 model affiliate_logs {
@@ -842,4 +846,28 @@ model affiliate_logs {
   affiliates   affiliates @relation(fields: [affiliate_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   orders       orders     @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   events       events     @relation(fields: [event_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+// ponytail: Penambahan enum status pencairan komisi yang ramping
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ponytail: Model payout_requests sederhana tanpa atribut redundan
+model payout_requests {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  affiliate_id   String       @db.Uuid
+  amount         BigInt
+  bank_name      String       @db.VarChar(100)
+  account_number String       @db.VarChar(50)
+  account_name   String       @db.VarChar(255)
+  status         PayoutStatus @default(PENDING)
+  proof_url      String?      @db.Text
+  notes          String?      @db.Text
+  created_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
+
+  affiliates     affiliates   @relation(fields: [affiliate_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
