@@ -91,7 +91,7 @@ export async function createOrderAction(input: CheckoutInput) {
     // 5. Non-blocking WhatsApp Notification Delivery (ponytail: fire-and-forget, zero blocking)
     const firstTicket = input.tickets[0];
     if (firstTicket && firstTicket.customerPhone) {
-      const waMsg = `Halo ${firstTicket.customerName}! Terima kasih telah memesan tiket di Kartjis. Order ID Anda: ${orderId}.\n\nLihat E-Tiket Anda di sini:\nhttps://referral-system.vercel.app/orders/${orderId}`;
+      const waMsg = `Halo ${firstTicket.customerName}! Terima kasih telah memesan tiket di Kartjis. Order ID Anda: ${orderId}.\n\nLihat E-Tiket Anda di sini:\nhttps://kartjis.netlify.app/orders/${orderId}`;
       sendWhatsAppMessage({
         target: firstTicket.customerPhone,
         message: waMsg,
