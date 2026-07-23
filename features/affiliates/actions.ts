@@ -229,6 +229,11 @@ export async function getAffiliateDetailAction(code: string) {
       orderBy: { created_at: "desc" },
     });
 
+    const payouts = await prisma.payout_requests.findMany({
+      where: { affiliate_id: affiliate.id },
+      orderBy: { created_at: "desc" }
+    });
+
     const parsedLogs = logs.map(log => ({
       id: log.id,
       orderId: log.order_id,
@@ -242,6 +247,10 @@ export async function getAffiliateDetailAction(code: string) {
     const totalTransactions = parsedLogs.length;
     const totalEarnings = parsedLogs.reduce((sum, item) => sum + item.commission, 0);
 
+    const paidPayouts = payouts.filter(p => p.status === "APPROVED");
+    const totalPaidOut = paidPayouts.reduce((sum, p) => sum + Number(p.amount), 0);
+    const availableBalance = Math.max(0, totalEarnings - totalPaidOut);
+
     return {
       success: true,
       data: {
@@ -250,6 +259,9 @@ export async function getAffiliateDetailAction(code: string) {
           name: affiliate.name,
           code: affiliate.code,
           email: affiliate.email,
+          bankName: affiliate.bank_name || "BCA",
+          bankAccountNumber: affiliate.bank_account_number || "-",
+          bankAccountName: affiliate.bank_account_name || affiliate.name,
           commissionRate: affiliate.commission_rate,
           isActive: affiliate.is_active,
           createdAt: affiliate.created_at,
@@ -257,8 +269,21 @@ export async function getAffiliateDetailAction(code: string) {
         stats: {
           totalTransactions,
           totalEarnings,
+          totalPaidOut,
+          availableBalance,
         },
         transactions: parsedLogs,
+        payouts: payouts.map(p => ({
+          id: p.id,
+          amount: Number(p.amount),
+          status: p.status,
+          bankName: p.bank_name,
+          accountNumber: p.account_number,
+          accountName: p.account_name,
+          proofUrl: p.proof_url,
+          notes: p.notes,
+          createdAt: p.created_at ? p.created_at.toISOString() : new Date().toISOString()
+        }))
       }
     };
   } catch (error) {

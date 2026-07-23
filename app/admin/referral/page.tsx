@@ -8,15 +8,8 @@ type PageProps = {
   }>;
 };
 
-export default async function AdminReferralPage({ searchParams }: PageProps) {
-  const { secret } = await searchParams;
-
-  // 1. Authenticate using process.env.ADMIN_SECRET_KEY
-  if (!secret || secret !== process.env.ADMIN_SECRET_KEY) {
-    notFound(); // Redirects to standard 404 page to mask route existence
-  }
-
-  // 2. Fetch all active events for links generation selection
+export default async function AdminReferralPage() {
+  // 1. Fetch all active events for links generation selection
   const allEvents = await prisma.events.findMany({
     where: {
       event_status_id: 1, // Published

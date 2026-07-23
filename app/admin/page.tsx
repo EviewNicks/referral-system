@@ -29,14 +29,9 @@ type PageProps = {
 };
 
 export default async function AdminDashboardPage({ searchParams }: PageProps) {
-  const { secret, status, event, affiliate } = await searchParams;
+  const { status, event, affiliate } = await searchParams;
 
-  // 1. Authenticate using process.env.ADMIN_SECRET_KEY
-  if (!secret || secret !== process.env.ADMIN_SECRET_KEY) {
-    notFound(); // Redirects to standard 404 page to mask route existence
-  }
-
-  // 2. Fetch all orders with tickets and events
+  // 1. Fetch all orders with tickets and events
   const orders = await prisma.orders.findMany({
     orderBy: {
       date: "desc",
@@ -254,7 +249,6 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
 
           {/* 5. FILTER OPTIONS AND DROPDOWNS CONTROL */}
           <form method="GET" action="/admin" className="w-full flex flex-wrap items-center justify-between gap-4 p-4 bg-white border border-gray-200/60 rounded-xl shadow-sm">
-            <input type="hidden" name="secret" value={secret} />
 
             <div className="flex flex-wrap items-center gap-3">
               
@@ -326,7 +320,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             {/* Actions: Filter & Reset buttons */}
             <div className="flex items-center gap-2 self-end mt-2 sm:mt-0">
               <Link 
-                href={`/admin?secret=${secret}`}
+                href="/admin"
                 className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold hover:bg-gray-50 transition-colors shadow-sm"
               >
                 <RotateCcw className="h-3.5 w-3.5" />

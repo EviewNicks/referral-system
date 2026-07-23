@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { EventDetailClient } from "@/features/catalog";
 import { AffiliateCapture } from "@/features/affiliates";
 
@@ -7,16 +8,16 @@ type Props = {
   params: Promise<{
     slug: string;
   }>;
-  searchParams: Promise<{
-    secret?: string;
-  }>;
 };
 
-export default async function EventDetailPage({ params, searchParams }: Props) {
+export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
-  const { secret } = await searchParams;
 
-  const isAdmin = !!(secret && secret === process.env.ADMIN_SECRET_KEY);
+  // Check Supabase Auth user role
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const role = user?.user_metadata?.role;
+  const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
 
   // Find event by code or ID
   const event = await prisma.events.findFirst({
